@@ -254,6 +254,7 @@ class RecurrentActorCriticPolicy(ActorCriticPolicy):
         distribution = self._get_action_dist_from_latent(latent_pi)
         actions = distribution.get_actions(deterministic=deterministic)
         log_prob = distribution.log_prob(actions)
+        actions = actions.reshape((-1, *self.action_space.shape))  # type: ignore[misc])
         return actions, values, log_prob, RNNStates(lstm_states_pi, lstm_states_vf)
 
     def get_distribution(
@@ -413,7 +414,7 @@ class RecurrentActorCriticPolicy(ActorCriticPolicy):
             states = (states[0].cpu().numpy(), states[1].cpu().numpy())
 
         # Convert to numpy
-        actions = actions.cpu().numpy()
+        actions = actions.cpu().numpy().reshape((-1, *self.action_space.shape))  # type: ignore[assignment]
 
         if isinstance(self.action_space, spaces.Box):
             if self.squash_output:
