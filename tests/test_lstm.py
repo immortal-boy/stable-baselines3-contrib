@@ -269,6 +269,7 @@ class MultiDimensionalActionSpaceEnv(gym.Env):
     def step(self, action):
         return self.observation_space.sample(), 1, False, False, {}
 
+
 def test_ppo_multi_dimensional_action_space():
     env = make_vec_env(MultiDimensionalActionSpaceEnv, n_envs=1)
     model = RecurrentPPO("MlpLstmPolicy", env)
