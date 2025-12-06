@@ -244,3 +244,32 @@ def test_ppo_lstm_performance():
     # In CartPole-v1, a non-recurrent policy can easily get >= 450.
     # In CartPoleNoVelEnv, a non-recurrent policy doesn't get more than ~50.
     evaluate_policy(model, env, reward_threshold=450)
+
+
+class MultiDimensionalActionSpaceEnv(gym.Env):
+    def __init__(self):
+        self.observation_space = gym.spaces.Box(
+            low=-1,
+            high=1,
+            shape=(10,),
+            dtype=np.float32,
+        )
+
+        self.action_space = gym.spaces.Box(
+            low=-1,
+            high=1,
+            shape=(2, 2),
+            dtype=np.float32,
+        )
+
+    def reset(self, seed=None, options=None):
+        super().reset(seed=seed)
+        return self.observation_space.sample(), {}
+
+    def step(self, action):
+        return self.observation_space.sample(), 1, False, False, {}
+
+def test_ppo_multi_dimensional_action_space():
+    env = make_vec_env(MultiDimensionalActionSpaceEnv, n_envs=1)
+    model = RecurrentPPO("MlpLstmPolicy", env)
+    model.learn(1)
