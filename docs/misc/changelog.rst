@@ -19,6 +19,7 @@ New Features:
 
 Bug Fixes:
 ^^^^^^^^^^
+- Fix RecurrentPPO and MaskablePPO forward and predict do not reshape action before clip it
 
 Deprecations:
 ^^^^^^^^^^^^^
