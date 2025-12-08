@@ -110,9 +110,10 @@ class MaskableCategoricalDistribution(MaskableDistribution):
     :param action_dim: Number of discrete actions
     """
 
+    distribution: MaskableCategorical
+
     def __init__(self, action_dim: int):
         super().__init__()
-        self.distribution: MaskableCategorical | None = None
         self.action_dim = action_dim
 
     def proba_distribution_net(self, latent_dim: int) -> nn.Module:
