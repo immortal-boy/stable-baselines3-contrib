@@ -248,29 +248,18 @@ def test_ppo_lstm_performance():
 
 class MultiDimensionalActionSpaceEnv(gym.Env):
     def __init__(self):
-        self.observation_space = gym.spaces.Box(
-            low=-1,
-            high=1,
-            shape=(10,),
-            dtype=np.float32,
-        )
-
-        self.action_space = gym.spaces.Box(
-            low=-1,
-            high=1,
-            shape=(2, 2),
-            dtype=np.float32,
-        )
+        self.observation_space = spaces.Box(low=-1, high=1, shape=(10,), dtype=np.float32)
+        self.action_space = spaces.Box(low=-1, high=1, shape=(2, 2), dtype=np.float32)
 
     def reset(self, seed=None, options=None):
         super().reset(seed=seed)
         return self.observation_space.sample(), {}
 
     def step(self, action):
-        return self.observation_space.sample(), 1, False, False, {}
+        return self.observation_space.sample(), 1, np.random.rand() > 0.8, False, {}
 
 
 def test_ppo_multi_dimensional_action_space():
-    env = make_vec_env(MultiDimensionalActionSpaceEnv, n_envs=1)
-    model = RecurrentPPO("MlpLstmPolicy", env)
-    model.learn(1)
+    env = MultiDimensionalActionSpaceEnv()
+    model = RecurrentPPO("MlpLstmPolicy", env, n_steps=64, n_epochs=2).learn(64)
+    evaluate_policy(model, model.get_env())
