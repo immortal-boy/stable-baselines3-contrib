@@ -19,8 +19,8 @@ New Features:
 
 Bug Fixes:
 ^^^^^^^^^^
-- Fix RecurrentPPO and MaskablePPO forward and predict do not reshape action before clip it
-- Do not call ``forward()`` method directly in ``RecurrentPPO``
+- Fix RecurrentPPO and MaskablePPO forward and predict do not reshape action before clip it (@immortal-boy)
+- Do not call ``forward()`` method directly in ``RecurrentPPO`` (@immortal-boy)
 
 Deprecations:
 ^^^^^^^^^^^^^
@@ -658,3 +658,4 @@ Contributors:
 
 @ku2482 @guyk1971 @minhlong94 @ayeright @kronion @glmcdona @cyprienc @sgillen @Gregwar @rnederstigt @qgallouedec
 @mlodel @CppMaster @burakdmb @honglu2875 @ZikangXiong @AlexPasqua @jonasreiher @icheered @Armandpl @danielpalen @corentinlger
+@immortal-boy
