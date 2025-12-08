@@ -138,19 +138,15 @@ class MaskableCategoricalDistribution(MaskableDistribution):
         return self
 
     def log_prob(self, actions: th.Tensor) -> th.Tensor:
-        assert self.distribution is not None, "Must set distribution parameters"
         return self.distribution.log_prob(actions)
 
     def entropy(self) -> th.Tensor:
-        assert self.distribution is not None, "Must set distribution parameters"
         return self.distribution.entropy()
 
     def sample(self) -> th.Tensor:
-        assert self.distribution is not None, "Must set distribution parameters"
         return self.distribution.sample()
 
     def mode(self) -> th.Tensor:
-        assert self.distribution is not None, "Must set distribution parameters"
         return th.argmax(self.distribution.probs, dim=1)
 
     def actions_from_params(self, action_logits: th.Tensor, deterministic: bool = False) -> th.Tensor:
@@ -164,7 +160,6 @@ class MaskableCategoricalDistribution(MaskableDistribution):
         return actions, log_prob
 
     def apply_masking(self, masks: MaybeMasks) -> None:
-        assert self.distribution is not None, "Must set distribution parameters"
         self.distribution.apply_masking(masks)
 
 
